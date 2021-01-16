@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Rock Paper Scissors Lizard Spock</title>
+  <meta name="description" content="Rock Paper Scissors Lizard Spock">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="styles.css?v=1.0">
+
+</head>
+
+<body>
+    <img id="rpsls-img" src="512px-rpsls.svg" width="250" height="250" />
+    <p id="rpsls-text"></p>
+
+    <form onsubmit="event.preventDefault(); rpsls(this);">
+        <div id="playerOne">
+            <h4>Player One</h4>
+            <input type="checkbox" id="playerOne-1" name="playerOne-1" value="rock">
+            <label for="playerOne-1">Rock</label><br>
+            <input type="checkbox" id="playerOne-2" name="playerOne-2" value="paper">
+            <label for="playerOne-2">Paper</label><br>
+            <input type="checkbox" id="playerOne-3" name="playerOne-3" value="scissors">
+            <label for="playerOne-3">Scissors</label><br>
+            <input type="checkbox" id="playerOne-4" name="playerOne-4" value="lizard">
+            <label for="playerOne-4">Lizard</label><br>
+            <input type="checkbox" id="playerOne-5" name="playerOne-5" value="spock">
+            <label for="playerOne-5">Spock</label><br>
+        </div>
+
+        <div id="playerTwo">
+            <h4>Player Two</h4>
+            <input type="checkbox" id="playerTwo-1" name="playerTwo-1" value="rock">
+            <label for="playerTwo-1">Rock</label><br>
+            <input type="checkbox" id="playerTwo-2" name="playerTwo-2" value="paper">
+            <label for="playerTwo-2">Paper</label><br>
+            <input type="checkbox" id="playerTwo-3" name="playerTwo-3" value="scissors">
+            <label for="playerTwo-3">Scissors</label><br>
+            <input type="checkbox" id="playerTwo-4" name="playerTwo-4" value="lizard">
+            <label for="playerTwo-4">Lizard</label><br>
+            <input type="checkbox" id="playerTwo-5" name="playerTwo-5" value="spock">
+            <label for="playerTwo-5">Spock</label><br>
+            
+        </div>
+        <button type="submit">FIGHT!</button>
+    </form>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
