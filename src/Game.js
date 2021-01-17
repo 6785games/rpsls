@@ -6,34 +6,36 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(''), // 3x3 board
-      xScore: 0,
-      oScore: 0,
+      p1Score: 0,
+      p2Score: 0,
+      p1Choice: null,
+      p2Choice: null,
       whosTurn: this.props.myTurn
     };
 
-    this.turn = 'X';
+    this.turn = 1;
     this.gameOver = false;
     this.counter = 0;
+    this.choice = null;
   }
 
   componentDidMount(){
     this.props.pubnub.getMessage(this.props.gameChannel, (msg) => {
       // Publish move to the opponent's board
-      if(msg.message.turn === this.props.piece){
-        this.publishMove(msg.message.index, msg.message.piece);
+      if(msg.message.turn === this.props.id){
+        this.publishMove(msg.message.choice, msg.message.player);
       }
 
       // Start a new round
       else if(msg.message.reset){
         this.setState({
-          squares: Array(9).fill(''),
           whosTurn : this.props.myTurn
         });
 
-        this.turn = 'X';
+        this.turn = 1;
         this.gameOver = false;
         this.counter = 0;
+        this.choice = null;
         Swal.close()
       }
 
@@ -63,7 +65,7 @@ class Game extends React.Component {
             confirmButton: 'button-class',
         } ,
       });
-      this.turn = 'X'; // Set turn to X so Player O can't make a move 
+      this.turn = 1;
     } 
 
     // Show this to the room creator
@@ -76,8 +78,8 @@ class Game extends React.Component {
         showCancelButton: true,
         confirmButtonColor: 'rgb(208,33,41)',
         cancelButtonColor: '#aaa',
-        cancelButtonText: 'Nope',
-        confirmButtonText: 'Yea!',
+        cancelButtonText: 'No',
+        confirmButtonText: 'Yes!',
         width: 275,
         customClass: {
             heightAuto: false,
@@ -112,21 +114,21 @@ class Game extends React.Component {
 
 	// Update score for the winner
   announceWinner = (winner) => {
-		let pieces = {
-			'X': this.state.xScore,
-			'O': this.state.oScore
+		let players = {
+			1: this.state.p1Score,
+			2: this.state.p2Score
 		}
 	
-		if(winner === 'X'){
-			pieces['X'] += 1;
+		if(winner === 1){
+			players[1] += 1;
 			this.setState({
-				xScore: pieces['X']
+				p1Score: players[1]
 			});
 		}
 		else{
-			pieces['O'] += 1;
+			players[2] += 1;
 			this.setState({
-				oScore: pieces['O']
+				p2Score: players[2]
 			});
 		}
 		// End the game once there is a winner
@@ -134,79 +136,73 @@ class Game extends React.Component {
 		this.newRound(winner);	
   }
   
-  checkForWinner = (squares) => {
+  checkForWinner = () => {
     // Possible winning combinations
-    const possibleCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-  
-    // Iterate every combination to see if there is a match
-    for (let i = 0; i < possibleCombinations.length; i += 1) {
-      const [a, b, c] = possibleCombinations[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        this.announceWinner(squares[a]);
-        return;
-      }
-    }
+    if (this.state.p1Choice && this.state.p2Choice) {
+      // Both answers submitted, resolve
+      const combo1 = p1Choice + ',' + p2Choice,
+            combo2 = p2Choice + ',' + p1Choice,
+            possibleCombinations = [];
 
-    // Check if the game ends in a draw
-    this.counter++;
-    // The board is filled up and there is no winner
-    if(this.counter === 9){
-      this.gameOver = true;
-      this.newRound(null);
+      if (combo1 === combo2) {
+        // Draw
+        this.gameOver = true;
+        this.newRound(null);
+      }
+      
+      if (combo1 in possibleCombinations) {
+        // player 1 wins
+        this.announceWinner(1);
+      } else {
+        if (combo2 in possibleCombinations) {
+          // player 2 wins
+          this.announceWinner(2);
+        }
+      }
     }
   };
    
   // Opponent's move is published to the board
-  publishMove = (index, piece) => {
-    const squares = this.state.squares;
+  publishMove = (choice, player) => {
+    if (player === 1) {
+      this.setState({p1Choice: choice, whosTurn: !this.state.whosTurn});
+      this.turn = 2;
+    } else {
+      this.setState({p2Choice: choice, whosTurn: !this.state.whosTurn});
+      this.turn = 1;
+    }
 
-    squares[index] = piece;
-    this.turn = (squares[index] === 'X')? 'O' : 'X';
-
-    this.setState({
-      squares: squares,
-      whosTurn: !this.state.whosTurn
-    });
-
-    this.checkForWinner(squares)
+    this.checkForWinner();
   }
 
-  onMakeMove = (index) =>{
-    const squares = this.state.squares;
-
-    // Check if the square is empty and if it's the player's turn to make a move
-    if(!squares[index] && (this.turn === this.props.piece)){ 
-      squares[index] = this.props.piece;
-
-      this.setState({
-        squares: squares,
-        whosTurn: !this.state.whosTurn
-      });
-  
-      // Other player's turn to make a move
-      this.turn = (this.turn === 'X') ? 'O' : 'X';
+  onMakeMove = (choice) =>{
+    if (this.turn === this.props.id) {
+      if (this.props.id === 1) {
+        this.setState({p1Choice: choice, whosTurn: !this.state.whosTurn});
+        this.turn = 2;
+      } else {
+        this.setState({p2Choice: choice, whosTurn: !this.state.whosTurn});
+        this.turn = 1;
+      }
 
       // Publish move to the channel
       this.props.pubnub.publish({
         message: {
-          index: index,
-          piece: this.props.piece,
+          choice: choice,
+          player: this.props.id,
           turn: this.turn
         },
         channel: this.props.gameChannel
       });  
 
       // Check if there is a winner
-      this.checkForWinner(squares)
+      this.checkForWinner();
+    }
+  }
+
+  bothMovesMade = () => {
+    if (this.state.p1Choice && this.state.p2Choice) {
+      // color stuff in here
     }
   }
 
@@ -219,19 +215,34 @@ class Game extends React.Component {
       <div className="game">
         <div className="board">
           <Board
-              squares={this.state.squares}
-              onClick={index => this.onMakeMove(index)}
+              onClick={index => this.bothMovesMade()}
             />  
             <p className="status-info">{status}</p>        
         </div>
+
+        <form>
+          <div id="playerChoice">
+              <input type="radio" id="rock" name="playerChoice" value="rock">
+                <label for="rock">Rock</label></input> - 
+              <input type="radio" id="paper" name="playerChoice" value="paper">
+                <label for="paper">Paper</label></input> - 
+              <input type="radio" id="scissors" name="playerChoice" value="scissors">
+                <label for="scissor">Scissors</label></input> - 
+              <input type="radio" id="lizard" name="playerChoice" value="lizard">
+                <label for="lizard">Lizard</label></input> - 
+              <input type="radio" id="spock" name="playerChoice" value="spock">
+                <label for="spock">Spock</label></input>
+          </div>
+          <button type="submit" onClick={choice => this.onMakeMove(choice)}>Select</button>
+      </form>
         
         <div className="scores-container">
           <div>
-            <p>Player X: {this.state.xScore} </p>
+            <p>Host: {this.state.p1Score} </p>
           </div>
 
           <div>
-            <p>Player O: {this.state.oScore} </p>
+            <p>Guest: {this.state.p2Score} </p>
           </div>
         </div>   
       </div>

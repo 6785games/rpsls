@@ -15,7 +15,8 @@ class App extends Component {
     });
     
     this.state = {
-      piece: '',
+      name: '',
+      id: 0,
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
@@ -41,7 +42,7 @@ class App extends Component {
         // Start the game once an opponent joins the channel
         if(msg.message.notRoomCreator){
           // Create a different channel for the game
-          this.gameChannel = 'tictactoegame--' + this.roomId;
+          this.gameChannel = 'rpsls-game--' + this.roomId;
 
           this.pubnub.subscribe({
             channels: [this.gameChannel]
@@ -62,7 +63,7 @@ class App extends Component {
   onPressCreate = (e) => {
     // Create a random name for the channel
     this.roomId = shortid.generate().substring(0,5);
-    this.lobbyChannel = 'tictactoelobby--' + this.roomId;
+    this.lobbyChannel = 'rpsls-lobby--' + this.roomId;
 
     this.pubnub.subscribe({
       channels: [this.lobbyChannel],
@@ -87,10 +88,11 @@ class App extends Component {
   })
 
     this.setState({
-      piece: 'X',
+      name: 'Host',
+      isPlaying: true,
       isRoomCreator: true,
-      isDisabled: true, // Disable the 'Create' button
-      myTurn: true, // Room creator makes the 1st move
+      myTurn: true,
+      id: 1,
     });   
   }
   
@@ -123,7 +125,7 @@ class App extends Component {
   // Join a room channel
   joinRoom = (value) => {
     this.roomId = value;
-    this.lobbyChannel = 'tictactoelobby--' + this.roomId;
+    this.lobbyChannel = 'rpsls-lobby--' + this.roomId;
 
     // Check the number of people in the channel
     this.pubnub.hereNow({
@@ -136,7 +138,7 @@ class App extends Component {
           });
           
           this.setState({
-            piece: 'O',
+          
           });  
           
           this.pubnub.publish({
@@ -171,11 +173,12 @@ class App extends Component {
   // Reset everything
   endGame = () => {
     this.setState({
-      piece: '',
+      name: 'Guest',
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
       myTurn: false,
+      id: 2
     });
 
     this.lobbyChannel = null;
@@ -191,7 +194,7 @@ class App extends Component {
     return (  
         <div> 
           <div className="title">
-            <p>React Tic Tac Toe</p>
+            <p>Rock Paper Scissors Lizard Spock - react game</p>
           </div>
 
           {
@@ -199,7 +202,6 @@ class App extends Component {
             <div className="game">
               <div className="board">
                 <Board
-                    squares={0}
                     onClick={index => null}
                   />  
                   
@@ -226,11 +228,10 @@ class App extends Component {
             <Game 
               pubnub={this.pubnub}
               gameChannel={this.gameChannel} 
-              piece={this.state.piece}
+              name={this.state.name}
+              id={this.state.id}
               isRoomCreator={this.state.isRoomCreator}
               myTurn={this.state.myTurn}
-              xUsername={this.state.xUsername}
-              oUsername={this.state.oUsername}
               endGame={this.endGame}
             />
           }
