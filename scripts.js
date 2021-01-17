@@ -1,5 +1,5 @@
-const playerOneColor = '#FF2D00',
-    playerTwoColor = '#001BFF',
+const playerOneColor = '#FF2D00',  // red
+    playerTwoColor = '#001BFF',  // blue
     circlesMap = {
         'rock': 'path850',
         'paper': 'path846',
@@ -34,48 +34,54 @@ const playerOneColor = '#FF2D00',
 
 
 function rpsls() {
-    var array = []
-    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
-    
-    for (var i = 0; i < checkboxes.length; i++) {
-      array.push(checkboxes[i].value)
-    }
-
-    var test1 = array.join(),
-        test2 = array.reverse().join(),
+    var playerOneChoice = document.querySelector('input[name="playerOne"]:checked').value,
+        playerTwoChoice = document.querySelector('input[name="playerTwo"]:checked').value,
+        test1 = playerOneChoice + ',' + playerTwoChoice,
+        test2 = playerTwoChoice + ',' + playerOneChoice,
         winnerKey = '',
-        winnerColor = '',
-        playerOneChoice = array[0],
-        playerTwoChoice = array[1];
+        winnerColor = '#000',
+        txt = '';
 
-    // get player one choice
-    document.querySelector(".svgClass").getSVGDocument().getElementById(
-        circlesMap[playerOneChoice]
-    ).style.stroke = playerOneColor;
-
-    // get player two choice
-    document.querySelector(".svgClass").getSVGDocument().getElementById(
-        circlesMap[playerTwoChoice]
-    ).style.stroke = playerTwoColor;
-
-    // decide winner
-    if (test1 in arrowsMap) {
-        winnerKey = test1;
-        winnerColor = playerOneColor;
-    }
-    else{
-        if (test2 in arrowsMap) {
-            winnerKey = test2;
-            winnerColor = playerTwoColor;       
+    if (playerOneChoice === playerTwoChoice) {
+        txt = 'DRAW!';
+    } else {
+        // winner
+        if (test1 in arrowsMap) {
+            winnerKey = test1; winnerColor = playerOneColor;
         }
+        else{
+            if (test2 in arrowsMap) {
+                winnerKey = test2; winnerColor = playerTwoColor;       
+            }
+        }
+
+        // color player one choice
+        document.querySelector(".svgClass").getSVGDocument().getElementById(
+            circlesMap[playerOneChoice]).style.stroke = playerOneColor;
+        // color player two choice
+        document.querySelector(".svgClass").getSVGDocument().getElementById(
+            circlesMap[playerTwoChoice]).style.stroke = playerTwoColor;
+        // color arrow
+        document.querySelector(".svgClass").getSVGDocument().getElementById(
+            arrowsMap[winnerKey]).style.stroke = winnerColor;
+        document.querySelector(".svgClass").getSVGDocument().getElementById(
+            arrowsMap[winnerKey]).style.fill = winnerColor;
+
+        txt = winnerKey.replace(",", " " + verbsMap[winnerKey] + " ");
     }
 
-    document.querySelector(".svgClass").getSVGDocument().getElementById(
-        arrowsMap[winnerKey]
-    ).style.stroke = winnerColor;
-
-    var txt = winnerKey.replace(",", " " + verbsMap[winnerKey] + " ");
-
+    // text and victory color
     document.getElementById('rpsls-text').style.color = winnerColor;
     document.getElementById('rpsls-text').innerHTML = txt;
 };
+
+
+const pubnub = new PubNub({
+    publishKey: "pub-c-2ee20710-a112-40af-9a77-21eaa1dd53ec",
+    subscribeKey: "sub-c-6fe52db8-5906-11eb-aa8f-362bd3cdc5e2"
+});
+
+var player = {
+    "score": 0,
+    "choice": ""
+}

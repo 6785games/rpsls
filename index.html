@@ -21,35 +21,36 @@
     <form onsubmit="event.preventDefault(); rpsls(this);">
         <div id="playerOne">
             <h4>Player One</h4>
-            <input type="checkbox" id="playerOne-1" name="playerOne-1" value="rock">
-            <label for="playerOne-1">Rock</label><br>
-            <input type="checkbox" id="playerOne-2" name="playerOne-2" value="paper">
-            <label for="playerOne-2">Paper</label><br>
-            <input type="checkbox" id="playerOne-3" name="playerOne-3" value="scissors">
-            <label for="playerOne-3">Scissors</label><br>
-            <input type="checkbox" id="playerOne-4" name="playerOne-4" value="lizard">
-            <label for="playerOne-4">Lizard</label><br>
-            <input type="checkbox" id="playerOne-5" name="playerOne-5" value="spock">
-            <label for="playerOne-5">Spock</label><br>
+            <input type="radio" id="rock" name="playerOne" value="rock">
+            <label for="rock">Rock</label><br>
+            <input type="radio" id="paper" name="playerOne" value="paper">
+            <label for="paper">Paper</label><br>
+            <input type="radio" id="scissors" name="playerOne" value="scissors">
+            <label for="scissors">Scissors</label><br>
+            <input type="radio" id="lizard" name="playerOne" value="lizard">
+            <label for="lizard">Lizard</label><br>
+            <input type="radio" id="spock" name="playerOne" value="spock">
+            <label for="spock">Spock</label><br>
         </div>
 
         <div id="playerTwo">
             <h4>Player Two</h4>
-            <input type="checkbox" id="playerTwo-1" name="playerTwo-1" value="rock">
-            <label for="playerTwo-1">Rock</label><br>
-            <input type="checkbox" id="playerTwo-2" name="playerTwo-2" value="paper">
-            <label for="playerTwo-2">Paper</label><br>
-            <input type="checkbox" id="playerTwo-3" name="playerTwo-3" value="scissors">
-            <label for="playerTwo-3">Scissors</label><br>
-            <input type="checkbox" id="playerTwo-4" name="playerTwo-4" value="lizard">
-            <label for="playerTwo-4">Lizard</label><br>
-            <input type="checkbox" id="playerTwo-5" name="playerTwo-5" value="spock">
-            <label for="playerTwo-5">Spock</label><br>
+            <input type="radio" id="rock" name="playerTwo" value="rock">
+            <label for="rock">Rock</label><br>
+            <input type="radio" id="paper" name="playerTwo" value="paper">
+            <label for="paper">Paper</label><br>
+            <input type="radio" id="scissors" name="playerTwo" value="scissors">
+            <label for="scissor">Scissors</label><br>
+            <input type="radio" id="lizard" name="playerTwo" value="lizard">
+            <label for="lizard">Lizard</label><br>
+            <input type="radio" id="spock" name="playerTwo" value="spock">
+            <label for="spock">Spock</label><br>
             
         </div>
         <button type="submit">FIGHT!</button>
     </form>
 
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.27.4.min.js"></script>
   <script src="scripts.js"></script>
 </body>
 </html>
