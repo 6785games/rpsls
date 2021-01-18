@@ -140,8 +140,8 @@ class Game extends React.Component {
     // Possible winning combinations
     if (this.state.p1Choice && this.state.p2Choice) {
       // Both answers submitted, resolve
-      const combo1 = p1Choice + ',' + p2Choice,
-            combo2 = p2Choice + ',' + p1Choice,
+      const combo1 = this.state.p1Choice + ',' + this.state.p2Choice,
+            combo2 = this.state.p2Choice + ',' + this.state.p1Choice,
             possibleCombinations = [];
 
       if (combo1 === combo2) {

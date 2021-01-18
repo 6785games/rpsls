@@ -10,8 +10,8 @@ class App extends Component {
   constructor(props) {  
     super(props);
     this.pubnub = new PubNubReact({
-      publishKey: "ENTER_YOUR_PUBLISH_KEY_HERE", 
-      subscribeKey: "ENTER_YOUR_SUBSCRIBE_KEY_HERE"    
+      publishKey: "pub-c-2ee20710-a112-40af-9a77-21eaa1dd53ec",
+      subscribeKey: "sub-c-6fe52db8-5906-11eb-aa8f-362bd3cdc5e2"    
     });
     
     this.state = {

@@ -55,11 +55,11 @@ class Board extends React.Component {
         this.setState('txt', 'DRAW!');
     } else {
         // winner
-        if (test1 in arrowsMap) {
+        if (test1 in this.arrowsMap) {
             winnerKey = test1; winnerColor = this.playerOneColor;
         }
         else{
-            if (test2 in arrowsMap) {
+            if (test2 in this.arrowsMap) {
                 winnerKey = test2; winnerColor = this.playerTwoColor;       
             }
         }
@@ -78,7 +78,7 @@ class Board extends React.Component {
 
         this.setState(
           'txt',
-          winnerKey.replace(",", " " + resolveMap[winnerKey][0] + " ")
+          winnerKey.replace(",", " " + this.resolveMap[winnerKey][0] + " ")
         );
     }
 
