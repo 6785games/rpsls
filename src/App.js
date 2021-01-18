@@ -202,7 +202,8 @@ class App extends Component {
             <div className="game">
               <div className="board">
                 <Board
-                    onClick={index => null}
+                    p1Choice={this.state.p1Choice}
+                    p2Choice={this.state.p2Choice}
                   />  
                   
                 <div className="button-container">

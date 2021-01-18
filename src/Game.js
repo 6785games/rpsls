@@ -215,9 +215,20 @@ class Game extends React.Component {
       <div className="game">
         <div className="board">
           <Board
-              onClick={index => this.bothMovesMade()}
+              p1Choice={this.state.p1Choice}
+              p2Choice={this.state.p2Choice}
             />  
             <p className="status-info">{status}</p>        
+        </div>
+        
+        <div className="scores-container">
+          <div>
+            <p>Host: {this.state.p1Score} </p>
+          </div>
+
+          <div>
+            <p>Guest: {this.state.p2Score} </p>
+          </div>
         </div>
 
         <form>
@@ -234,17 +245,7 @@ class Game extends React.Component {
                 <label for="spock">Spock</label></input>
           </div>
           <button type="submit" onClick={choice => this.onMakeMove(choice)}>Select</button>
-      </form>
-        
-        <div className="scores-container">
-          <div>
-            <p>Host: {this.state.p1Score} </p>
-          </div>
-
-          <div>
-            <p>Guest: {this.state.p2Score} </p>
-          </div>
-        </div>   
+        </form>
       </div>
     );
   }
