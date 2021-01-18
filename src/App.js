@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Game from './Game';
-import Board from './Board';
 import PubNubReact from 'pubnub-react';
 import Swal from "sweetalert2";  
 import shortid  from 'shortid';
@@ -200,12 +199,7 @@ class App extends Component {
           {
             !this.state.isPlaying &&
             <div className="game">
-              <div className="board">
-                <Board
-                    p1Choice={this.state.p1Choice}
-                    p2Choice={this.state.p2Choice}
-                  />  
-                  
+              <div className="board">               
                 <div className="button-container">
                   <button 
                     className="create-button "

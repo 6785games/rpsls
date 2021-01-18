@@ -233,16 +233,16 @@ class Game extends React.Component {
 
         <form>
           <div id="playerChoice">
-              <input type="radio" id="rock" name="playerChoice" value="rock">
-                <label for="rock">Rock</label></input> - 
-              <input type="radio" id="paper" name="playerChoice" value="paper">
-                <label for="paper">Paper</label></input> - 
-              <input type="radio" id="scissors" name="playerChoice" value="scissors">
-                <label for="scissor">Scissors</label></input> - 
-              <input type="radio" id="lizard" name="playerChoice" value="lizard">
-                <label for="lizard">Lizard</label></input> - 
-              <input type="radio" id="spock" name="playerChoice" value="spock">
-                <label for="spock">Spock</label></input>
+              <input type="radio" id="rock" name="playerChoice" value="rock"></input>
+                <label htmlFor="rock">Rock</label> - 
+              <input type="radio" id="paper" name="playerChoice" value="paper"></input>
+                <label htmlFor="paper">Paper</label> - 
+              <input type="radio" id="scissors" name="playerChoice" value="scissors"></input>
+                <label htmlFor="scissor">Scissors</label> - 
+              <input type="radio" id="lizard" name="playerChoice" value="lizard"></input>
+                <label htmlFor="lizard">Lizard</label> - 
+              <input type="radio" id="spock" name="playerChoice" value="spock"></input>
+                <label htmlFor="spock">Spock</label>
           </div>
           <button type="submit" onClick={choice => this.onMakeMove(choice)}>Select</button>
         </form>
