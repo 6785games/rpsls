@@ -4,6 +4,7 @@ import PubNubReact from 'pubnub-react';
 import Swal from "sweetalert2";  
 import shortid  from 'shortid';
 import './Game.css';
+import Board from './Board';
  
 class App extends Component {
   constructor(props) {  
@@ -69,28 +70,28 @@ class App extends Component {
       withPresence: true
     });
 
-  // Open the modal
-  Swal.fire({
-    position: 'top',
-    allowOutsideClick: false,
-    title: 'Share this room ID with your friend',
-    text: this.roomId,
-    width: 275,
-    padding: '0.7em',
-    // Custom CSS
-    customClass: {
-        heightAuto: false,
-        title: 'title-class',
-        popup: 'popup-class',
-        confirmButton: 'button-class'
-    }
-  })
+    // Open the modal
+    Swal.fire({
+      position: 'top',
+      allowOutsideClick: false,
+      title: 'Share this room ID with your friend',
+      text: this.roomId,
+      width: 275,
+      padding: '0.7em',
+      // Custom CSS
+      customClass: {
+          heightAuto: false,
+          title: 'title-class',
+          popup: 'popup-class',
+          confirmButton: 'button-class'
+      }
+    })
 
     this.setState({
       name: 'Host',
-      isPlaying: true,
       isRoomCreator: true,
       myTurn: true,
+      isDisabled: true,
       id: 1,
     });   
   }
@@ -137,7 +138,7 @@ class App extends Component {
           });
           
           this.setState({
-          
+            name: 'Guest',
           });  
           
           this.pubnub.publish({
@@ -172,7 +173,7 @@ class App extends Component {
   // Reset everything
   endGame = () => {
     this.setState({
-      name: 'Guest',
+      name: '',
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
@@ -199,8 +200,13 @@ class App extends Component {
           {
             !this.state.isPlaying &&
             <div className="game">
-              <div className="board">               
-                <div className="button-container">
+              <div className="board"> 
+                <Board
+                    p1Choice={null}
+                    p2Choice={null}
+                  />                      
+              </div>
+              <div className="button-container">
                   <button 
                     className="create-button "
                     disabled={this.state.isDisabled}
@@ -212,9 +218,7 @@ class App extends Component {
                     onClick={(e) => this.onPressJoin()}
                     > Join 
                   </button>
-                </div>                        
-          
-              </div>
+                </div>
             </div>
           }
 

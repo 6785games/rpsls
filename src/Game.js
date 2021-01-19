@@ -213,12 +213,12 @@ class Game extends React.Component {
 
     return (
       <div className="game">
+        <p className="status-info">{status}</p> 
         <div className="board">
           <Board
               p1Choice={this.state.p1Choice}
               p2Choice={this.state.p2Choice}
-            />  
-            <p className="status-info">{status}</p>        
+            /> 
         </div>
         
         <div className="scores-container">
@@ -233,18 +233,22 @@ class Game extends React.Component {
 
         <form>
           <div id="playerChoice">
-              <input type="radio" id="rock" name="playerChoice" value="rock"></input>
+              <input type="radio" id="rock" name="playerChoice" value="rock"
+                onClick={this.onMakeMove("rock")}></input>
                 <label htmlFor="rock">Rock</label> - 
-              <input type="radio" id="paper" name="playerChoice" value="paper"></input>
+              <input type="radio" id="paper" name="playerChoice" value="paper"
+                onClick={this.onMakeMove("paper")}></input>
                 <label htmlFor="paper">Paper</label> - 
-              <input type="radio" id="scissors" name="playerChoice" value="scissors"></input>
+              <input type="radio" id="scissors" name="playerChoice" value="scissors"
+                onClick={this.onMakeMove("scissors")}></input>
                 <label htmlFor="scissor">Scissors</label> - 
-              <input type="radio" id="lizard" name="playerChoice" value="lizard"></input>
+              <input type="radio" id="lizard" name="playerChoice" value="lizard"
+                onClick={this.onMakeMove("lizard")}></input>
                 <label htmlFor="lizard">Lizard</label> - 
-              <input type="radio" id="spock" name="playerChoice" value="spock"></input>
+              <input type="radio" id="spock" name="playerChoice" value="spock"
+                onClick={this.onMakeMove("spock")}></input>
                 <label htmlFor="spock">Spock</label>
           </div>
-          <button type="submit" onClick={choice => this.onMakeMove(choice)}>Select</button>
         </form>
       </div>
     );

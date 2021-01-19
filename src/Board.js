@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Figures from './Figures';
 
 const playerOneColor = '#FF2D00';  // red
 const playerTwoColor = '#001BFF';  // blue
@@ -29,7 +29,7 @@ const resolveMap = {
   'scissors,lizard': ['decapitates', 'rect4899-6-1-8-6']
 };
 class Board extends React.Component {
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (this.props.p1Choice && this.props.p2Choice) {
       this.rpsls();
     }
@@ -76,13 +76,14 @@ class Board extends React.Component {
     document.getElementById('rpsls-text').innerHTML = txt;
   }
 
+  renderFigures(i) {
+    return (
+      <Figures />
+    );
+  }
+
   render() {
-    return <div>
-        <object className="svgClass" type="image/svg+xml"
-              data="media/512px-rpsls.svg"
-              width="350" height="350" ></object>
-        <p id="rpsls-text"></p>
-      </div>;
+    return <div><Figures /><p id="rpsls-text"></p></div>;
   }
 }
 
