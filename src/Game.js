@@ -142,7 +142,18 @@ class Game extends React.Component {
       // Both answers submitted, resolve
       const combo1 = this.state.p1Choice + ',' + this.state.p2Choice,
             combo2 = this.state.p2Choice + ',' + this.state.p1Choice,
-            possibleCombinations = [];
+            possibleCombinations = [
+              'rock,lizard',
+              'lizard,spock',
+              'spock,scissors',
+              'scissors,paper',
+              'paper,rock',
+              'paper,spock',
+              'rock,scissors',
+              'lizard,paper',
+              'spock,rock',
+              'scissors,lizard'
+            ];
 
       if (combo1 === combo2) {
         // Draw
@@ -200,12 +211,6 @@ class Game extends React.Component {
     }
   }
 
-  bothMovesMade = () => {
-    if (this.state.p1Choice && this.state.p2Choice) {
-      // color stuff in here
-    }
-  }
-
   render() {
     let status;
     // Change to current player's turn
@@ -223,31 +228,22 @@ class Game extends React.Component {
         
         <div className="scores-container">
           <div>
-            <p>Host: {this.state.p1Score} </p>
-          </div>
-
-          <div>
-            <p>Guest: {this.state.p2Score} </p>
+            <p>Host: {this.state.p1Score} | Guest: {this.state.p2Score} </p>
           </div>
         </div>
 
         <form>
           <div id="playerChoice">
-              <input type="radio" id="rock" name="playerChoice" value="rock"
-                onClick={this.onMakeMove("rock")}></input>
-                <label htmlFor="rock">Rock</label> - 
-              <input type="radio" id="paper" name="playerChoice" value="paper"
-                onClick={this.onMakeMove("paper")}></input>
-                <label htmlFor="paper">Paper</label> - 
-              <input type="radio" id="scissors" name="playerChoice" value="scissors"
-                onClick={this.onMakeMove("scissors")}></input>
-                <label htmlFor="scissor">Scissors</label> - 
-              <input type="radio" id="lizard" name="playerChoice" value="lizard"
-                onClick={this.onMakeMove("lizard")}></input>
-                <label htmlFor="lizard">Lizard</label> - 
-              <input type="radio" id="spock" name="playerChoice" value="spock"
-                onClick={this.onMakeMove("spock")}></input>
-                <label htmlFor="spock">Spock</label>
+              <input type="button" id="rock" name="playerChoice" value="rock"
+                onClick={this.onMakeMove("rock")}></input> 
+              <input type="button" id="paper" name="playerChoice" value="paper"
+                onClick={this.onMakeMove("paper")}></input> 
+              <input type="button" id="scissors" name="playerChoice" value="scissors"
+                onClick={this.onMakeMove("scissors")}></input> 
+              <input type="button" id="lizard" name="playerChoice" value="lizard"
+                onClick={this.onMakeMove("lizard")}></input> 
+              <input type="button" id="spock" name="playerChoice" value="spock"
+                onClick={this.onMakeMove("spock")}></input> 
           </div>
         </form>
       </div>

@@ -16,7 +16,7 @@ p {
 }
 
 .status-info {
-  margin-left: 20px;
+  text-align: center;
   color: rgb(208,33,41);
 }
 
@@ -34,7 +34,7 @@ p {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: rgb(208,33,41);
+  color: blue;
 }
 
 .button-container {
@@ -52,7 +52,7 @@ p {
 }
 
 .scores-container {
-  margin-right: 10em;
+  text-align: center;
   color: rgb(208,33,41);
 }
 

@@ -139,6 +139,9 @@ class App extends Component {
           
           this.setState({
             name: 'Guest',
+            isRoomCreator: false,
+            myTurn: false,
+            id: 2
           });  
           
           this.pubnub.publish({
@@ -178,7 +181,7 @@ class App extends Component {
       isRoomCreator: false,
       isDisabled: false,
       myTurn: false,
-      id: 2
+      id: 0
     });
 
     this.lobbyChannel = null;
