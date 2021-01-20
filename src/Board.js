@@ -24,107 +24,62 @@ const defaultColor = '#000',
         'scissors,lizard': ['decapitates', 'rect4899-6-1-8-6']
     };
 class Board extends React.Component {
-  componentDidUpdate() {
-    
-    //  this.rpsls();
-  }
-
   getFinalData = () => {
+    let p1Circle = '',
+      p2Circle = '',
+      wKey = '',
+      wColor = '#000',
+      wArrow = '',
+      wText = '';
+
     if (this.props.p1Choice && this.props.p2Choice) {
-      var playerOneChoice = this.props.p1Choice,
+      let playerOneChoice = this.props.p1Choice,
         playerTwoChoice = this.props.p2Choice,
-        p1Circle = '',
-        p2Circle = '',
         test1 = playerOneChoice + ',' + playerTwoChoice,
-        test2 = playerTwoChoice + ',' + playerOneChoice,
-        winnerKey = '',
-        winnerColor = '#000',
-        wArrow = '',
-        txt = '';
+        test2 = playerTwoChoice + ',' + playerOneChoice;
+
 
         if (playerOneChoice === playerTwoChoice) {
-          txt = 'DRAW';
+          wText = 'DRAW';
         } else {
           // winner
           if (test1 in resolveMap) {
-              winnerKey = test1; winnerColor = playerOneColor;
+              wKey = test1; wColor = playerOneColor;
           }
           else{
               if (test2 in resolveMap) {
-                  winnerKey = test2; winnerColor = playerTwoColor;       
+                  wKey = test2; wColor = playerTwoColor;       
               }
           }
           p1Circle = circlesMap[playerOneChoice];
           p2Circle = circlesMap[playerTwoChoice];
-          txt = winnerKey.replace(",", " " + resolveMap[winnerKey][0] + " ");
-          wArrow = resolveMap[winnerKey][1]
+          wText = wKey.replace(",", " " + resolveMap[wKey][0] + " ");
+          wArrow = resolveMap[wKey][1]
         }
     }
-    return [winnerKey, winnerColor, txt, p1Circle, p2Circle, wArrow];
-  }
-  /*
-  rpsls = () => {
-    var playerOneChoice = this.props.p1Choice,
-        playerTwoChoice = this.props.p2Choice,
-        test1 = playerOneChoice + ',' + playerTwoChoice,
-        test2 = playerTwoChoice + ',' + playerOneChoice,
-        winnerKey = '',
-        winnerColor = '#000',
-        txt = ''
-
-    if (playerOneChoice === playerTwoChoice) {
-        txt = 'DRAW';
-    } else {
-        // winner
-        if (test1 in resolveMap) {
-            winnerKey = test1; winnerColor = playerOneColor;
-        }
-        else{
-            if (test2 in resolveMap) {
-                winnerKey = test2; winnerColor = playerTwoColor;       
-            }
-        }
-
-        // color player one choice
-        document.querySelector(".svgClass").getSVGDocument().getElementById(
-          circlesMap[playerOneChoice]).style.stroke = playerOneColor;
-        // color player two choice
-        document.querySelector(".svgClass").getSVGDocument().getElementById(
-          circlesMap[playerTwoChoice]).style.stroke = playerTwoColor;
-        // color arrow
-        document.querySelector(".svgClass").getSVGDocument().getElementById(
-          resolveMap[winnerKey][1]).style.stroke = winnerColor;
-        document.querySelector(".svgClass").getSVGDocument().getElementById(
-          resolveMap[winnerKey]).style.fill = winnerColor;
-        txt = winnerKey.replace(",", " " + resolveMap[winnerKey][0] + " ");
-    }
-
-    // text and victory color
-    document.getElementById('rpsls-text').style.color = winnerColor;
-    document.getElementById('rpsls-text').innerHTML = txt;
-  }*/
-
-  renderFigures() {
-    let wKey, wColor, wText, p1Circle, p2Circle, wArrow = this.getFinalData();
-    return (
-      <Figures
-        defaultColor={defaultColor}
-        p1Choice={this.props.p1Choice}
-        p1Circle={p1Circle}
-        p1Color={playerOneColor}
-        p2Choice={this.props.p2Choice}
-        p2Circle={p2Circle}
-        p2Color={playerTwoColor}
-        wKey={wKey}
-        wColor={wColor}
-        wText={wText}
-        wArrow={wArrow}
-      />
-    );
+    return [wKey, wColor, wText, p1Circle, p2Circle, wArrow];
   }
 
   render() {
-    return <div>{this.renderFigures()}<p className="rpsls-text" style={{color: this.getFinalData()[1]}}>{this.getFinalData()[2]}</p></div>;
+    let wKey, wColor, wText, p1Circle, p2Circle, wArrow = this.getFinalData();
+    return (
+        <div>
+            <Figures
+              defaultColor={defaultColor}
+              p1Choice={this.props.p1Choice}
+              p1Circle={p1Circle}
+              p1Color={playerOneColor}
+              p2Choice={this.props.p2Choice}
+              p2Circle={p2Circle}
+              p2Color={playerTwoColor}
+              wKey={wKey}
+              wColor={wColor}
+              wText={wText}
+              wArrow={wArrow}
+            />
+            <p className="rpsls-text" style={{color: wColor}}>{wText}</p>
+        </div>
+    );
   }
 }
 
