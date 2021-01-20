@@ -9,11 +9,9 @@ class Game extends React.Component {
       p1Score: 0,
       p2Score: 0,
       p1Choice: null,
-      p2Choice: null,
-      whosTurn: this.props.myTurn
+      p2Choice: null
     };
 
-    this.turn = 1;
     this.gameOver = false;
     this.counter = 0;
     this.choice = null;
@@ -22,17 +20,14 @@ class Game extends React.Component {
   componentDidMount(){
     this.props.pubnub.getMessage(this.props.gameChannel, (msg) => {
       // Publish move to the opponent's board
-      if(msg.message.turn === this.props.id){
+      if(msg.message.choice){
         this.publishMove(msg.message.choice, msg.message.player);
+        // Check if there is a winner
+        this.checkForWinner();
       }
 
       // Start a new round
       else if(msg.message.reset){
-        this.setState({
-          whosTurn : this.props.myTurn
-        });
-
-        this.turn = 1;
         this.gameOver = false;
         this.counter = 0;
         this.choice = null;
@@ -65,7 +60,6 @@ class Game extends React.Component {
             confirmButton: 'button-class',
         } ,
       });
-      this.turn = 1;
     } 
 
     // Show this to the room creator
@@ -176,49 +170,28 @@ class Game extends React.Component {
   // Opponent's move is published to the board
   publishMove = (choice, player) => {
     if (player === 1) {
-      this.setState({p1Choice: choice, whosTurn: !this.state.whosTurn});
-      this.turn = 2;
+      this.setState({p1Choice: choice});
     } else {
-      this.setState({p2Choice: choice, whosTurn: !this.state.whosTurn});
-      this.turn = 1;
+      this.setState({p2Choice: choice});
     }
-
-    this.checkForWinner();
   }
 
   onMakeMove = (choice) =>{
-    if (this.turn === this.props.id) {
-      if (this.props.id === 1) {
-        this.setState({p1Choice: choice, whosTurn: !this.state.whosTurn});
-        this.turn = 2;
-      } else {
-        this.setState({p2Choice: choice, whosTurn: !this.state.whosTurn});
-        this.turn = 1;
-      }
+    this.choice = choice;
 
-      // Publish move to the channel
-      this.props.pubnub.publish({
-        message: {
-          choice: choice,
-          player: this.props.id,
-          turn: this.turn
-        },
-        channel: this.props.gameChannel
-      });  
-
-      // Check if there is a winner
-      this.checkForWinner();
-    }
+    // Publish move to the channel
+    this.props.pubnub.publish({
+      message: {
+        choice: this.choice,
+        player: this.props.id,
+      },
+      channel: this.props.gameChannel
+    });  
   }
 
   render() {
-    let status;
-    // Change to current player's turn
-    status = `${this.state.whosTurn ? "Your turn" : "Opponent's turn"}`;
-
     return (
       <div className="game">
-        <p className="status-info">{status}</p> 
         <div className="board">
           <Board
               p1Choice={this.state.p1Choice}
@@ -232,18 +205,18 @@ class Game extends React.Component {
           </div>
         </div>
         {
-          this.state.myTurn &&
+          !this.choice &&
           <div id="playerChoice">
               <input type="button" id="rock" name="playerChoice" value="rock"
-                onClick={this.onMakeMove("rock")}></input> 
+                onClick={(e) => this.onMakeMove("rock", e)}></input> 
               <input type="button" id="paper" name="playerChoice" value="paper"
-                onClick={this.onMakeMove("paper")}></input> 
+                onClick={(e) => this.onMakeMove("paper", e)}></input> 
               <input type="button" id="scissors" name="playerChoice" value="scissors"
-                onClick={this.onMakeMove("scissors")}></input> 
+                onClick={(e) => this.onMakeMove("scissors", e)}></input> 
               <input type="button" id="lizard" name="playerChoice" value="lizard"
-                onClick={this.onMakeMove("lizard")}></input> 
+                onClick={(e) => this.onMakeMove("lizard", e)}></input> 
               <input type="button" id="spock" name="playerChoice" value="spock"
-                onClick={this.onMakeMove("spock")}></input> 
+                onClick={(e) => this.onMakeMove("spock", e)}></input> 
           </div>
         }
       </div>

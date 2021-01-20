@@ -25,41 +25,42 @@ const defaultColor = '#000',
     };
 class Board extends React.Component {
   componentDidUpdate() {
-    if (this.props.p1Choice && this.props.p2Choice) {
-      this.rpsls();
-    }
+    
+    //  this.rpsls();
   }
 
   getFinalData = () => {
-    var playerOneChoice = this.props.p1Choice,
-      playerTwoChoice = this.props.p2Choice,
-      p1Circle = '',
-      p2Circle = '',
-      test1 = playerOneChoice + ',' + playerTwoChoice,
-      test2 = playerTwoChoice + ',' + playerOneChoice,
-      winnerKey = '',
-      winnerColor = '#000',
-      wArrow = '',
-      txt = '';
+    if (this.props.p1Choice && this.props.p2Choice) {
+      var playerOneChoice = this.props.p1Choice,
+        playerTwoChoice = this.props.p2Choice,
+        p1Circle = '',
+        p2Circle = '',
+        test1 = playerOneChoice + ',' + playerTwoChoice,
+        test2 = playerTwoChoice + ',' + playerOneChoice,
+        winnerKey = '',
+        winnerColor = '#000',
+        wArrow = '',
+        txt = '';
 
-      if (playerOneChoice === playerTwoChoice) {
-        txt = 'DRAW';
-      } else {
-        // winner
-        if (test1 in resolveMap) {
-            winnerKey = test1; winnerColor = playerOneColor;
+        if (playerOneChoice === playerTwoChoice) {
+          txt = 'DRAW';
+        } else {
+          // winner
+          if (test1 in resolveMap) {
+              winnerKey = test1; winnerColor = playerOneColor;
+          }
+          else{
+              if (test2 in resolveMap) {
+                  winnerKey = test2; winnerColor = playerTwoColor;       
+              }
+          }
+          p1Circle = circlesMap[playerOneChoice];
+          p2Circle = circlesMap[playerTwoChoice];
+          txt = winnerKey.replace(",", " " + resolveMap[winnerKey][0] + " ");
+          wArrow = resolveMap[winnerKey][1]
         }
-        else{
-            if (test2 in resolveMap) {
-                winnerKey = test2; winnerColor = playerTwoColor;       
-            }
-        }
-        p1Circle = circlesMap[playerOneChoice];
-        p2Circle = circlesMap[playerTwoChoice];
-        txt = winnerKey.replace(",", " " + resolveMap[winnerKey][0] + " ");
-        wArrow = resolveMap[winnerKey][1]
-      }
-      return [winnerKey, winnerColor, txt, p1Circle, p2Circle, wArrow];
+    }
+    return [winnerKey, winnerColor, txt, p1Circle, p2Circle, wArrow];
   }
   /*
   rpsls = () => {
@@ -123,7 +124,7 @@ class Board extends React.Component {
   }
 
   render() {
-    return <div>{this.renderFigures()}<p id="rpsls-text"></p></div>;
+    return <div>{this.renderFigures()}<p className="rpsls-text" style={{color: this.getFinalData()[1]}}>{this.getFinalData()[2]}</p></div>;
   }
 }
 

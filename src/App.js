@@ -233,7 +233,6 @@ class App extends Component {
               name={this.state.name}
               id={this.state.id}
               isRoomCreator={this.state.isRoomCreator}
-              myTurn={this.state.myTurn}
               endGame={this.endGame}
             />
           }
