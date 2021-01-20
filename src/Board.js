@@ -38,7 +38,6 @@ class Board extends React.Component {
         test1 = playerOneChoice + ',' + playerTwoChoice,
         test2 = playerTwoChoice + ',' + playerOneChoice;
 
-
         if (playerOneChoice === playerTwoChoice) {
           wText = 'DRAW';
         } else {
@@ -61,7 +60,14 @@ class Board extends React.Component {
   }
 
   render() {
-    let wKey, wColor, wText, p1Circle, p2Circle, wArrow = this.getFinalData();
+    let dt = this.getFinalData(),
+      wKey = dt[0],
+      wColor = dt[1], 
+      wText = dt[2],
+      p1Circle = dt[3],
+      p2Circle = dt[4],
+      wArrow = dt[5]; 
+
     return (
         <div>
             <Figures

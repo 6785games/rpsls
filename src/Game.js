@@ -31,6 +31,10 @@ class Game extends React.Component {
         this.gameOver = false;
         this.counter = 0;
         this.choice = null;
+        this.setState({
+          p1Choice: null,
+          p2Choice: null
+        });
         Swal.close()
       }
 
@@ -155,11 +159,11 @@ class Game extends React.Component {
         this.newRound(null);
       }
       
-      if (combo1 in possibleCombinations) {
+      if (possibleCombinations.includes(combo1)) {
         // player 1 wins
         this.announceWinner(1);
       } else {
-        if (combo2 in possibleCombinations) {
+        if (possibleCombinations.includes(combo2)) {
           // player 2 wins
           this.announceWinner(2);
         }
