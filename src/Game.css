@@ -15,10 +15,6 @@ p {
   margin-inline-end: 0px;
 }
 
-.status-info {
-  text-align: center;
-  color: rgb(208,33,41);
-}
 
 .board {
   display: flex;
@@ -34,7 +30,7 @@ p {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: blue;
+  color: #001BFF;
 }
 
 .button-container {
@@ -53,7 +49,6 @@ p {
 
 .scores-container {
   text-align: center;
-  color: rgb(208,33,41);
 }
 
 .create-button {
@@ -98,4 +93,11 @@ p {
 
 .rpsls-text {
   text-align: center;
+}
+
+.rpsls-text-host {
+  color: #FF2D00;
+}
+.rpsls-text-guest {
+  color: #001BFF;
 }

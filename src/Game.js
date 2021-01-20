@@ -205,7 +205,9 @@ class Game extends React.Component {
         
         <div className="scores-container">
           <div>
-            <p>Host: {this.state.p1Score} | Guest: {this.state.p2Score} </p>
+            <p>
+              <span className="rpsls-text-host">Player 1 (host): {this.state.p1Score}</span> | <span className="rpsls-text-guest">Player 2: {this.state.p2Score}</span>
+            </p>
           </div>
         </div>
         {
