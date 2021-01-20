@@ -19,8 +19,7 @@ class App extends Component {
       id: 0,
       isPlaying: false,
       isRoomCreator: false,
-      isDisabled: false,
-      myTurn: false,
+      isDisabled: false
     };
 
     this.lobbyChannel = null;
@@ -140,7 +139,6 @@ class App extends Component {
           this.setState({
             name: 'Guest',
             isRoomCreator: false,
-            myTurn: false,
             id: 2
           });  
           
@@ -180,7 +178,6 @@ class App extends Component {
       isPlaying: false,
       isRoomCreator: false,
       isDisabled: false,
-      myTurn: false,
       id: 0
     });
 
