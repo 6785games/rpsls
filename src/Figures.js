@@ -1,11 +1,10 @@
 import React from 'react';
-import RPSLSImage from './512px-rpsls.svg';
-
+import { SvgLoader, SvgProxy } from "react-svgmt";
 
 const Figures = () =>
-    <img className="svgClass"
-        src={RPSLSImage}
-        alt="svgClass"
-        width="350" height="350" ></img>
+    <SvgLoader className="svg-wrapper"
+        path="https://raw.githubusercontent.com/6785games/rpsls/pubnub-react/src/512px-rpsls.svg" >
+            
+        </SvgLoader>
 
 export default Figures;

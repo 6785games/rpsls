@@ -89,3 +89,9 @@ p {
   margin: .3125em; 
   padding: .5em 1.8em; 
 }
+
+.svg-wrapper {
+  width: 350px;
+  height: 350px;
+  display: block;
+}

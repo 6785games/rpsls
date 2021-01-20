@@ -231,8 +231,8 @@ class Game extends React.Component {
             <p>Host: {this.state.p1Score} | Guest: {this.state.p2Score} </p>
           </div>
         </div>
-
-        <form>
+        {
+          this.state.myTurn &&
           <div id="playerChoice">
               <input type="button" id="rock" name="playerChoice" value="rock"
                 onClick={this.onMakeMove("rock")}></input> 
@@ -245,7 +245,7 @@ class Game extends React.Component {
               <input type="button" id="spock" name="playerChoice" value="spock"
                 onClick={this.onMakeMove("spock")}></input> 
           </div>
-        </form>
+        }
       </div>
     );
   }
