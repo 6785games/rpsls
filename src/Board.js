@@ -5,23 +5,23 @@ const defaultColor = '#000',
     playerOneColor = '#FF2D00',  // red
     playerTwoColor = '#001BFF',  // blue
     circlesMap = {
-        'rock': 'path850',
-        'paper': 'path846',
-        'scissors': 'path848',
-        'lizard': 'path852',
-        'spock': 'path829'
+        'rock': '#path850',
+        'paper': '#path846',
+        'scissors': '#path848',
+        'lizard': '#path852',
+        'spock': '#path829'
     },
     resolveMap = {
-        'rock,lizard': ['crushes', 'path4741'],
-        'lizard,spock': ['poisons', 'path4741-6'],
-        'spock,scissors': ['smashes', 'path4741-6-4'],
-        'scissors,paper': ['cuts', 'path4741-6-4-0'],
-        'paper,rock': ['covers', 'path4741-6-4-0-1'],
-        'paper,spock': ['disproves', 'rect4899'],
-        'rock,scissors': ['crushes', 'rect4899-6'],
-        'lizard,paper': ['eats', 'rect4899-6-1'],
-        'spock,rock': ['vaporizes', 'rect4899-6-1-8'],
-        'scissors,lizard': ['decapitates', 'rect4899-6-1-8-6']
+        'rock,lizard': ['crushes', '#path4741'],
+        'lizard,spock': ['poisons', '#path4741-6'],
+        'spock,scissors': ['smashes', '#path4741-6-4'],
+        'scissors,paper': ['cuts', '#path4741-6-4-0'],
+        'paper,rock': ['covers', '#path4741-6-4-0-1'],
+        'paper,spock': ['disproves', '#rect4899'],
+        'rock,scissors': ['crushes', '#rect4899-6'],
+        'lizard,paper': ['eats', '#rect4899-6-1'],
+        'spock,rock': ['vaporizes', '#rect4899-6-1-8'],
+        'scissors,lizard': ['decapitates', '#rect4899-6-1-8-6']
     };
 class Board extends React.Component {
   getFinalData = () => {
@@ -71,14 +71,12 @@ class Board extends React.Component {
     return (
         <div>
             <Figures
-              defaultColor={defaultColor}
               p1Choice={this.props.p1Choice}
               p1Circle={p1Circle}
               p1Color={playerOneColor}
               p2Choice={this.props.p2Choice}
               p2Circle={p2Circle}
               p2Color={playerTwoColor}
-              wKey={wKey}
               wColor={wColor}
               wText={wText}
               wArrow={wArrow}
