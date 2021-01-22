@@ -9,7 +9,8 @@ class Game extends React.Component {
       p1Score: 0,
       p2Score: 0,
       p1Choice: null,
-      p2Choice: null
+      p2Choice: null,
+      winner: null
     };
 
     this.gameOver = false;
@@ -33,7 +34,8 @@ class Game extends React.Component {
         this.choice = null;
         this.setState({
           p1Choice: null,
-          p2Choice: null
+          p2Choice: null,
+          winner: null
         });
         Swal.close()
       }
@@ -46,72 +48,28 @@ class Game extends React.Component {
     });
   }
 
-  newRound = (winner) => {
-    let title = (winner === null) ? 'Tie game!' : `Player ${winner} won!`;
-    // Show this if the player is not the room creator
-    if((this.props.isRoomCreator === false) && this.gameOver){
-      Swal.fire({  
-        position: 'top',
-        allowOutsideClick: false,
-        title: title,
-        text: 'Waiting for a new round...',
-        confirmButtonColor: 'rgb(208,33,41)',
-        width: 275,
-        customClass: {
-            heightAuto: false,
-            title: 'title-class',
-            popup: 'popup-class',
-            confirmButton: 'button-class',
-        } ,
+  newRound = (opt) => {
+    if (opt === true) {
+      this.props.pubnub.publish({
+        message: {
+          reset: true
+        },
+        channel: this.props.gameChannel
       });
-    } 
-
-    // Show this to the room creator
-    else if(this.props.isRoomCreator && this.gameOver){
-      Swal.fire({      
-        position: 'top',
-        allowOutsideClick: false,
-        title: title,
-        text: 'Continue Playing?',
-        showCancelButton: true,
-        confirmButtonColor: 'rgb(208,33,41)',
-        cancelButtonColor: '#aaa',
-        cancelButtonText: 'No',
-        confirmButtonText: 'Yes!',
-        width: 275,
-        customClass: {
-            heightAuto: false,
-            title: 'title-class',
-            popup: 'popup-class',
-            confirmButton: 'button-class',
-            cancelButton: 'button-class'
-        } ,
-      }).then((result) => {
-        // Start a new round
-        if (result.value) {
-          this.props.pubnub.publish({
-            message: {
-              reset: true
-            },
-            channel: this.props.gameChannel
-          });
-        }
-
-        else{
-          // End the game
-          this.props.pubnub.publish({
-            message: {
-              endGame: true
-            },
-            channel: this.props.gameChannel
-          });
-        }
-      })      
+    } else {
+      this.props.pubnub.publish({
+        message: {
+          endGame: true
+        },
+        channel: this.props.gameChannel
+      });
     }
-   }
+  }
 
 	// Update score for the winner
   announceWinner = (winner) => {
+
+		this.gameOver = true;
 		let players = {
 			1: this.state.p1Score,
 			2: this.state.p2Score
@@ -120,18 +78,17 @@ class Game extends React.Component {
 		if(winner === 1){
 			players[1] += 1;
 			this.setState({
-				p1Score: players[1]
+        p1Score: players[1],
+        winner: 'Host'
 			});
 		}
 		else{
 			players[2] += 1;
 			this.setState({
-				p2Score: players[2]
+        p2Score: players[2],
+        winner: 'Guest'
 			});
 		}
-		// End the game once there is a winner
-		this.gameOver = true;
-		this.newRound(winner);	
   }
   
   checkForWinner = () => {
@@ -156,7 +113,6 @@ class Game extends React.Component {
       if (combo1 === combo2) {
         // Draw
         this.gameOver = true;
-        this.newRound(null);
       }
       
       if (possibleCombinations.includes(combo1)) {
@@ -204,9 +160,19 @@ class Game extends React.Component {
         </div>
         
         <div className="scores-container">
+          {
+            this.state.winner &&
+            <div>
+              <p>
+                <span className={(this.state.winner === 'Guest') ? "rpsls-text-guest" : "rpsls-text-host"}>
+                  {this.state.winner} won the game
+                </span>
+              </p>
+          </div>
+          }
           <div>
             <p>
-              <span className="rpsls-text-host">Player 1 (host): {this.state.p1Score}</span> | <span className="rpsls-text-guest">Player 2: {this.state.p2Score}</span>
+              <span className="rpsls-text-host">Host: {this.state.p1Score}</span> | <span className="rpsls-text-guest">Guest: {this.state.p2Score}</span>
             </p>
           </div>
         </div>
@@ -223,6 +189,21 @@ class Game extends React.Component {
                 onClick={(e) => this.onMakeMove("lizard", e)}></input> 
               <input type="button" id="spock" name="playerChoice" value="spock"
                 onClick={(e) => this.onMakeMove("spock", e)}></input> 
+          </div>
+        }
+        {
+          (this.props.isRoomCreator && this.gameOver) &&
+          <div id="gameOverHost">
+            <input type="button" id="ok" name="playerChoice" value="ok"
+                onClick={(e) => this.newRound(true, e)}></input>
+            <input type="button" id="quit" name="playerChoice" value="quit"
+                onClick={(e) => this.newRound(false, e)}></input> 
+          </div>
+        }
+        {
+          (!this.props.isRoomCreator && this.gameOver) &&
+          <div id="gameOverGuest">
+            <p class="rpsls-text">... waiting for host...</p>
           </div>
         }
       </div>
