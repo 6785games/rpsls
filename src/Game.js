@@ -194,6 +194,7 @@ class Game extends React.Component {
         {
           (this.props.isRoomCreator && this.gameOver) &&
           <div id="gameOverHost">
+            <p class="rpsls-text">Start a new round?</p>
             <input type="button" id="ok" name="playerChoice" value="ok"
                 onClick={(e) => this.newRound(true, e)}></input>
             <input type="button" id="quit" name="playerChoice" value="quit"
