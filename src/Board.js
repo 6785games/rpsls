@@ -71,14 +71,12 @@ class Board extends React.Component {
     return (
         <div>
             <Figures
-              defaultColor={defaultColor}
               p1Choice={this.props.p1Choice}
               p1Circle={p1Circle}
               p1Color={playerOneColor}
               p2Choice={this.props.p2Choice}
               p2Circle={p2Circle}
               p2Color={playerTwoColor}
-              wKey={wKey}
               wColor={wColor}
               wText={wText}
               wArrow={wArrow}

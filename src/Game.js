@@ -196,8 +196,8 @@ class Game extends React.Component {
           <div id="gameOverHost">
             <p className="rpsls-text">Start a new round?</p>
             <input type="button" id="ok" name="playerChoice" value="ok"
-                onClick={(e) => this.newRound(true, e)}></input>
-            <input type="button" id="quit" name="playerChoice" value="quit"
+                onClick={(e) => this.newRound(true, e)}></input> | 
+            <input type="button" id="no" name="playerChoice" value="no"
                 onClick={(e) => this.newRound(false, e)}></input> 
           </div>
         }

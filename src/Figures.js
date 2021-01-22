@@ -1,28 +1,36 @@
 import React from 'react';
 import { SvgLoader, SvgProxy } from "react-svgmt";
 
-/**
- * this works with <object>
- * document.querySelector(".svgClass").getSVGDocument().getElementById(
- *    arrowsMap[winnerKey]).style.stroke = winnerColor;
- * document.querySelector(".svgClass").getSVGDocument().getElementById(
- *    arrowsMap[winnerKey]).style.fill = winnerColor;
- */
 
 class Figures extends React.Component {
+
+    addColor(props) {
+        document.querySelector(props.p1Circle).style.stroke = props.p1Color;
+        //document.querySelector(props.p1Circle).style.fill = props.p1Color;
+        document.querySelector(props.p2Circle).style.stroke = props.p2Color;
+        //document.querySelector(props.p2Circle).style.fill = props.p2Color;
+        document.querySelector(props.wArrow).style.stroke = props.wColor;
+        document.querySelector(props.wArrow).style.fill = props.wColor;
+    }
+
     render() {
-        console.log(this.state.props);
+        console.log(this.props);
         return(
-            <SvgLoader className="svg-wrapper"
-                path="https://raw.githubusercontent.com/6785games/rpsls/main/src/512px-rpsls.svg" >
-                {
-                    (this.props.p1Choice && this.state.p2Choice) && 
-                    <SvgProxy selector={this.props.p1Circle} stroke={this.props.p1Color} /> &&
-                    <SvgProxy selector={this.props.p2Circle} stroke={this.props.p2Color} /> &&
-                    <SvgProxy selector={this.props.wArrow} stroke={this.props.wColor} /> &&
-                    <SvgProxy selector={this.props.wKey} fill={this.props.wColor} />
-                }
-            </SvgLoader>
+            <div>
+            {
+                (!this.props.p1Choice || !this.props.p2Choice) &&
+                <SvgLoader className="svg-wrapper"
+                    path="https://raw.githubusercontent.com/6785games/rpsls/main/src/512px-rpsls.svg" >
+                </SvgLoader>
+            }
+            {
+                (this.props.p1Choice && this.props.p2Choice) &&
+                <SvgLoader className="svg-wrapper"
+                    path="https://raw.githubusercontent.com/6785games/rpsls/main/src/512px-rpsls.svg" 
+                    callback={this.addColor(this.props)}>
+                </SvgLoader>
+            }
+            </div>
         );
     }
 }
