@@ -1,8 +1,7 @@
 import React from 'react';
 import Figures from './Figures';
 
-const defaultColor = '#000',
-    playerOneColor = '#FF2D00',  // red
+const playerOneColor = '#FF2D00',  // red
     playerTwoColor = '#001BFF',  // blue
     circlesMap = {
         'rock': '#path850',
@@ -27,7 +26,6 @@ class Board extends React.Component {
   getFinalData = () => {
     let p1Circle = '',
       p2Circle = '',
-      wKey = '',
       wColor = '#000',
       wArrow = '',
       wText = '';
@@ -43,12 +41,12 @@ class Board extends React.Component {
         } else {
           // winner
           if (test1 in resolveMap) {
-              wKey = test1; wColor = playerOneColor;
+            wColor = playerOneColor;
           }
           else{
-              if (test2 in resolveMap) {
-                  wKey = test2; wColor = playerTwoColor;       
-              }
+            if (test2 in resolveMap) {
+              wColor = playerTwoColor;       
+            }
           }
           p1Circle = circlesMap[playerOneChoice];
           p2Circle = circlesMap[playerTwoChoice];
@@ -56,17 +54,16 @@ class Board extends React.Component {
           wArrow = resolveMap[wKey][1]
         }
     }
-    return [wKey, wColor, wText, p1Circle, p2Circle, wArrow];
+    return [wColor, wText, p1Circle, p2Circle, wArrow];
   }
 
   render() {
     let dt = this.getFinalData(),
-      wKey = dt[0],
-      wColor = dt[1], 
-      wText = dt[2],
-      p1Circle = dt[3],
-      p2Circle = dt[4],
-      wArrow = dt[5]; 
+      wColor = dt[0], 
+      wText = dt[1],
+      p1Circle = dt[2],
+      p2Circle = dt[3],
+      wArrow = dt[4]; 
 
     return (
         <div>

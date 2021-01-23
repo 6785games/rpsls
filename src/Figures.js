@@ -1,5 +1,5 @@
 import React from 'react';
-import { SvgLoader, SvgProxy } from "react-svgmt";
+import { SvgLoader } from "react-svgmt";
 
 
 class Figures extends React.Component {
