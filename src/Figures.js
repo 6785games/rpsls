@@ -18,13 +18,15 @@ class Figures extends React.Component {
         return(
             <div>
             {
-                (!this.props.p1Choice || !this.props.p2Choice) &&
+                ((!this.props.p1Choice || !this.props.p2Choice) ||
+                (this.props.p1Choice === this.props.p2Choice)) &&
                 <SvgLoader className="svg-wrapper"
                     path="https://raw.githubusercontent.com/6785games/rpsls/main/src/512px-rpsls.svg" >
                 </SvgLoader>
             }
             {
                 (this.props.p1Choice && this.props.p2Choice) &&
+                (this.props.p1Choice !== this.props.p2Choice) &&
                 <SvgLoader className="svg-wrapper"
                     path="https://raw.githubusercontent.com/6785games/rpsls/main/src/512px-rpsls.svg" 
                     callback={this.addColor(this.props)}>
